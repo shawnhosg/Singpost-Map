@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css" />
+        <link rel="stylesheet" type="text/css" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css" />
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet-heat.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/OSMBuildings-Leaflet.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <script src="data/ChoroplethMapAged2544inSubzones0.js"></script>
+        <script src="data/ShortestRoutePublictoSingPost1.js"></script>
+        <script src="data/ShortestRoutePrivatetoSingPost2.js"></script>
+        <script src="data/OfficeBuildings3.js"></script>
+        <script src="data/RetailBuildings4.js"></script>
+        <script src="data/IndustrialBuildings5.js"></script>
+        <script src="data/SingPostLocations6.js"></script>
+        <script>
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:10
+        }).fitBounds([[1.15653252588,103.530193166],[1.47830067616,104.160850307]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var feature_group = new L.featureGroup([]);
+        var bounds_group = new L.featureGroup([]);
+        var raster_group = new L.LayerGroup([]);
+        var basemap0 = L.tileLayer('http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 28
+        });
+        basemap0.addTo(map);
+        function setBounds() {
+        }
+        function geoJson2heat(geojson, weight) {
+          return geojson.features.map(function(feature) {
+            return [
+              feature.geometry.coordinates[1],
+              feature.geometry.coordinates[0],
+              feature.properties[weight]
+            ];
+          });
+        }
+        function pop_ChoroplethMapAged2544inSubzones0(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? Autolinker.link(String(feature.properties['OBJECTID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SUBZONE_N'] !== null ? Autolinker.link(String(feature.properties['SUBZONE_N'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>PLN_AREA_N</strong><br />' + (feature.properties['PLN_AREA_N'] !== null ? Autolinker.link(String(feature.properties['PLN_AREA_N'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TOTAL'] !== null ? Autolinker.link(String(feature.properties['TOTAL'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET0TO4'] !== null ? Autolinker.link(String(feature.properties['BET0TO4'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET5TO9'] !== null ? Autolinker.link(String(feature.properties['BET5TO9'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET10TO14'] !== null ? Autolinker.link(String(feature.properties['BET10TO14'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET15TO19'] !== null ? Autolinker.link(String(feature.properties['BET15TO19'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET20TO24'] !== null ? Autolinker.link(String(feature.properties['BET20TO24'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET25TO29'] !== null ? Autolinker.link(String(feature.properties['BET25TO29'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET30TO34'] !== null ? Autolinker.link(String(feature.properties['BET30TO34'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET35TO39'] !== null ? Autolinker.link(String(feature.properties['BET35TO39'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET40TO44'] !== null ? Autolinker.link(String(feature.properties['BET40TO44'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET45TO49'] !== null ? Autolinker.link(String(feature.properties['BET45TO49'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET50TO54'] !== null ? Autolinker.link(String(feature.properties['BET50TO54'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET55TO59'] !== null ? Autolinker.link(String(feature.properties['BET55TO59'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET60TO64'] !== null ? Autolinker.link(String(feature.properties['BET60TO64'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET65TO69'] !== null ? Autolinker.link(String(feature.properties['BET65TO69'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET70TO74'] !== null ? Autolinker.link(String(feature.properties['BET70TO74'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET75TO79'] !== null ? Autolinker.link(String(feature.properties['BET75TO79'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BET80TO84'] !== null ? Autolinker.link(String(feature.properties['BET80TO84'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OVER85'] !== null ? Autolinker.link(String(feature.properties['OVER85'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['INC_CRC'] !== null ? Autolinker.link(String(feature.properties['INC_CRC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FMEL_UPD_D'] !== null ? Autolinker.link(String(feature.properties['FMEL_UPD_D'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['X_ADDR'] !== null ? Autolinker.link(String(feature.properties['X_ADDR'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Y_ADDR'] !== null ? Autolinker.link(String(feature.properties['Y_ADDR'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SHAPE_Leng'] !== null ? Autolinker.link(String(feature.properties['SHAPE_Leng'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SHAPE_Area'] !== null ? Autolinker.link(String(feature.properties['SHAPE_Area'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Aged25-44'] !== null ? Autolinker.link(String(feature.properties['Aged25-44'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Aged15-34'] !== null ? Autolinker.link(String(feature.properties['Aged15-34'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_ChoroplethMapAged2544inSubzones0(feature) {
+            if (feature.properties['Aged25-44'] >= 0.000000 && feature.properties['Aged25-44'] <= 2080.000000 ) {
+                return {
+                pane: 'pane_ChoroplethMapAged2544inSubzones0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.8)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(247,251,255,0.8)',
+            }
+            }
+            if (feature.properties['Aged25-44'] >= 2080.000000 && feature.properties['Aged25-44'] <= 6300.000000 ) {
+                return {
+                pane: 'pane_ChoroplethMapAged2544inSubzones0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.8)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(200,221,240,0.8)',
+            }
+            }
+            if (feature.properties['Aged25-44'] >= 6300.000000 && feature.properties['Aged25-44'] <= 13680.000000 ) {
+                return {
+                pane: 'pane_ChoroplethMapAged2544inSubzones0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.8)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(115,179,216,0.8)',
+            }
+            }
+            if (feature.properties['Aged25-44'] >= 13680.000000 && feature.properties['Aged25-44'] <= 24690.000000 ) {
+                return {
+                pane: 'pane_ChoroplethMapAged2544inSubzones0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.8)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(40,121,185,0.8)',
+            }
+            }
+            if (feature.properties['Aged25-44'] >= 24690.000000 && feature.properties['Aged25-44'] <= 39120.000000 ) {
+                return {
+                pane: 'pane_ChoroplethMapAged2544inSubzones0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.8)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fillOpacity: 1,
+                fillColor: 'rgba(8,48,107,0.8)',
+            }
+            }
+        }
+        map.createPane('pane_ChoroplethMapAged2544inSubzones0');
+        map.getPane('pane_ChoroplethMapAged2544inSubzones0').style.zIndex = 600;
+        map.getPane('pane_ChoroplethMapAged2544inSubzones0').style['mix-blend-mode'] = 'multiply';
+    var layer_ChoroplethMapAged2544inSubzones0 = new L.geoJson(json_ChoroplethMapAged2544inSubzones0, {
+        pane: 'pane_ChoroplethMapAged2544inSubzones0',
+        onEachFeature: pop_ChoroplethMapAged2544inSubzones0,
+        style: style_ChoroplethMapAged2544inSubzones0
+    });
+        bounds_group.addLayer(layer_ChoroplethMapAged2544inSubzones0);
+        function pop_ShortestRoutePublictoSingPost1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Postalcode'] !== null ? Autolinker.link(String(feature.properties['Postalcode'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['X-Coordina'] !== null ? Autolinker.link(String(feature.properties['X-Coordina'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Y-Coordina'] !== null ? Autolinker.link(String(feature.properties['Y-Coordina'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HubName'] !== null ? Autolinker.link(String(feature.properties['HubName'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HUB_LENGTH'] !== null ? Autolinker.link(String(feature.properties['HUB_LENGTH'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_ShortestRoutePublictoSingPost1() {
+            return {
+                pane: 'pane_ShortestRoutePublictoSingPost1',
+                opacity: 1,
+                color: 'rgba(190,27,101,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+            }
+        }
+        map.createPane('pane_ShortestRoutePublictoSingPost1');
+        map.getPane('pane_ShortestRoutePublictoSingPost1').style.zIndex = 601;
+        map.getPane('pane_ShortestRoutePublictoSingPost1').style['mix-blend-mode'] = 'normal';
+    var layer_ShortestRoutePublictoSingPost1 = new L.geoJson(json_ShortestRoutePublictoSingPost1, {
+        pane: 'pane_ShortestRoutePublictoSingPost1',
+        onEachFeature: pop_ShortestRoutePublictoSingPost1,
+        style: style_ShortestRoutePublictoSingPost1
+    });
+        bounds_group.addLayer(layer_ShortestRoutePublictoSingPost1);
+        function pop_ShortestRoutePrivatetoSingPost2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Postalcode'] !== null ? Autolinker.link(String(feature.properties['Postalcode'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['X-Coordina'] !== null ? Autolinker.link(String(feature.properties['X-Coordina'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Y-Coordina'] !== null ? Autolinker.link(String(feature.properties['Y-Coordina'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HubName'] !== null ? Autolinker.link(String(feature.properties['HubName'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HubDist'] !== null ? Autolinker.link(String(feature.properties['HubDist'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HUB_LENGTH'] !== null ? Autolinker.link(String(feature.properties['HUB_LENGTH'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_ShortestRoutePrivatetoSingPost2() {
+            return {
+                pane: 'pane_ShortestRoutePrivatetoSingPost2',
+                opacity: 1,
+                color: 'rgba(126,53,215,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+            }
+        }
+        map.createPane('pane_ShortestRoutePrivatetoSingPost2');
+        map.getPane('pane_ShortestRoutePrivatetoSingPost2').style.zIndex = 602;
+        map.getPane('pane_ShortestRoutePrivatetoSingPost2').style['mix-blend-mode'] = 'normal';
+    var layer_ShortestRoutePrivatetoSingPost2 = new L.geoJson(json_ShortestRoutePrivatetoSingPost2, {
+        pane: 'pane_ShortestRoutePrivatetoSingPost2',
+        onEachFeature: pop_ShortestRoutePrivatetoSingPost2,
+        style: style_ShortestRoutePrivatetoSingPost2
+    });
+        bounds_group.addLayer(layer_ShortestRoutePrivatetoSingPost2);
+        function pop_OfficeBuildings3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Office_ID'] !== null ? Autolinker.link(String(feature.properties['Office_ID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Office Nam'] !== null ? Autolinker.link(String(feature.properties['Office Nam'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Office Add'] !== null ? Autolinker.link(String(feature.properties['Office Add'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Postal Cod'] !== null ? Autolinker.link(String(feature.properties['Postal Cod'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['X-COORD'] !== null ? Autolinker.link(String(feature.properties['X-COORD'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Y-COORD'] !== null ? Autolinker.link(String(feature.properties['Y-COORD'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_OfficeBuildings3() {
+            return {
+                pane: 'pane_OfficeBuildings3',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fillOpacity: 1,
+                fillColor: 'rgba(97,106,147,1.0)',
+            }
+        }
+        map.createPane('pane_OfficeBuildings3');
+        map.getPane('pane_OfficeBuildings3').style.zIndex = 603;
+        map.getPane('pane_OfficeBuildings3').style['mix-blend-mode'] = 'normal';
+        var layer_OfficeBuildings3 = new L.geoJson(json_OfficeBuildings3, {
+            pane: 'pane_OfficeBuildings3',
+            onEachFeature: pop_OfficeBuildings3,
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, style_OfficeBuildings3(feature))
+            }
+        });
+        bounds_group.addLayer(layer_OfficeBuildings3);
+        function pop_RetailBuildings4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Retail ID'] !== null ? Autolinker.link(String(feature.properties['Retail ID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Retail Bld'] !== null ? Autolinker.link(String(feature.properties['Retail Bld'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Retail B_1'] !== null ? Autolinker.link(String(feature.properties['Retail B_1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Postal Cod'] !== null ? Autolinker.link(String(feature.properties['Postal Cod'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['X-COORD'] !== null ? Autolinker.link(String(feature.properties['X-COORD'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Y-COORD'] !== null ? Autolinker.link(String(feature.properties['Y-COORD'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_RetailBuildings4() {
+            return {
+                pane: 'pane_RetailBuildings4',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fillOpacity: 1,
+                fillColor: 'rgba(56,155,230,1.0)',
+            }
+        }
+        map.createPane('pane_RetailBuildings4');
+        map.getPane('pane_RetailBuildings4').style.zIndex = 604;
+        map.getPane('pane_RetailBuildings4').style['mix-blend-mode'] = 'multiply';
+        var layer_RetailBuildings4 = new L.geoJson(json_RetailBuildings4, {
+            pane: 'pane_RetailBuildings4',
+            onEachFeature: pop_RetailBuildings4,
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, style_RetailBuildings4(feature))
+            }
+        });
+        bounds_group.addLayer(layer_RetailBuildings4);
+        function pop_IndustrialBuildings5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Industrial'] !== null ? Autolinker.link(String(feature.properties['Industrial'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Industri_1'] !== null ? Autolinker.link(String(feature.properties['Industri_1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Industri_2'] !== null ? Autolinker.link(String(feature.properties['Industri_2'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Postal Cod'] !== null ? Autolinker.link(String(feature.properties['Postal Cod'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['X-COORD'] !== null ? Autolinker.link(String(feature.properties['X-COORD'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Y-COORD'] !== null ? Autolinker.link(String(feature.properties['Y-COORD'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_IndustrialBuildings5() {
+            return {
+                pane: 'pane_IndustrialBuildings5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,218,131,1.0)',
+            }
+        }
+        map.createPane('pane_IndustrialBuildings5');
+        map.getPane('pane_IndustrialBuildings5').style.zIndex = 605;
+        map.getPane('pane_IndustrialBuildings5').style['mix-blend-mode'] = 'normal';
+        var layer_IndustrialBuildings5 = new L.geoJson(json_IndustrialBuildings5, {
+            pane: 'pane_IndustrialBuildings5',
+            onEachFeature: pop_IndustrialBuildings5,
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, style_IndustrialBuildings5(feature))
+            }
+        });
+        bounds_group.addLayer(layer_IndustrialBuildings5);
+        function pop_SingPostLocations6(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>BRANCH_NAM</strong><br />' + (feature.properties['BRANCH_NAM'] !== null ? Autolinker.link(String(feature.properties['BRANCH_NAM'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BRANCH_ADD'] !== null ? Autolinker.link(String(feature.properties['BRANCH_ADD'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['X-COORDINA'] !== null ? Autolinker.link(String(feature.properties['X-COORDINA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Y-COORDINA'] !== null ? Autolinker.link(String(feature.properties['Y-COORDINA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OPEN_ON_SU'] !== null ? Autolinker.link(String(feature.properties['OPEN_ON_SU'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OPEN_ON_PH'] !== null ? Autolinker.link(String(feature.properties['OPEN_ON_PH'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['POSTAL_NEW'] !== null ? Autolinker.link(String(feature.properties['POSTAL_NEW'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['%Private'] !== null ? Autolinker.link(String(feature.properties['%Private'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['%Public'] !== null ? Autolinker.link(String(feature.properties['%Public'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PrivateInBuffer_Count'] !== null ? Autolinker.link(String(feature.properties['PrivateInBuffer_Count'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PublicInBuffer_Count'] !== null ? Autolinker.link(String(feature.properties['PublicInBuffer_Count'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PrivateToBranch_Count'] !== null ? Autolinker.link(String(feature.properties['PrivateToBranch_Count'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PublicToBranch_Count'] !== null ? Autolinker.link(String(feature.properties['PublicToBranch_Count'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_SingPostLocations6() {
+            return {
+                pane: 'pane_SingPostLocations6',
+            }
+        }
+        map.createPane('pane_SingPostLocations6');
+        map.getPane('pane_SingPostLocations6').style.zIndex = 606;
+        map.getPane('pane_SingPostLocations6').style['mix-blend-mode'] = 'normal';
+        var layer_SingPostLocations6 = new L.geoJson(json_SingPostLocations6, {
+            pane: 'pane_SingPostLocations6',
+            onEachFeature: pop_SingPostLocations6,
+            pointToLayer: function (feature, latlng) {
+                return L.None(latlng, style_SingPostLocations6(feature))
+            }
+        });
+        bounds_group.addLayer(layer_SingPostLocations6);
+        feature_group.addLayer(layer_SingPostLocations6);
+        raster_group.addTo(map);
+        feature_group.addTo(map);
+        var baseMaps = {'OSM B&W': basemap0};
+        L.control.layers(baseMaps,{'<img src="legend/SingPostLocations6.png" /> SingPost Locations': layer_SingPostLocations6,'<img src="legend/IndustrialBuildings5.png" /> Industrial Buildings': layer_IndustrialBuildings5,'<img src="legend/RetailBuildings4.png" /> Retail Buildings': layer_RetailBuildings4,'<img src="legend/OfficeBuildings3.png" /> Office Buildings': layer_OfficeBuildings3,'<img src="legend/ShortestRoutePrivatetoSingPost2.png" /> Shortest Route (Private to SingPost)': layer_ShortestRoutePrivatetoSingPost2,'<img src="legend/ShortestRoutePublictoSingPost1.png" /> Shortest Route (Public to SingPost)': layer_ShortestRoutePublictoSingPost1,'Choropleth Map (Aged 25-44) in Subzones<br /><table><tr><td style="text-align: center;"><img src="legend/ChoroplethMapAged2544inSubzones0_000020800000.png" /></td><td> 0.000 - 2080.000 </td></tr><tr><td style="text-align: center;"><img src="legend/ChoroplethMapAged2544inSubzones0_208000063000001.png" /></td><td> 2080.000 - 6300.000 </td></tr><tr><td style="text-align: center;"><img src="legend/ChoroplethMapAged2544inSubzones0_6300000136800002.png" /></td><td> 6300.000 - 13680.000 </td></tr><tr><td style="text-align: center;"><img src="legend/ChoroplethMapAged2544inSubzones0_13680000246900003.png" /></td><td> 13680.000 - 24690.000 </td></tr><tr><td style="text-align: center;"><img src="legend/ChoroplethMapAged2544inSubzones0_24690000391200004.png" /></td><td> 24690.000 - 39120.000 </td></tr></table>': layer_ChoroplethMapAged2544inSubzones0,},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
